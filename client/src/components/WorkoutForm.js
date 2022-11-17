@@ -7,6 +7,7 @@ const WorkoutForm = () => {
     const [load, setLoad] = useState(0)
     const [reps, setReps] = useState(0)
     const [error, setError] = useState('')
+    const [emptyFields, setEmptyFields] = useState([])
 
     const API_URL = 'http://localhost:4000';
 
@@ -23,8 +24,10 @@ const WorkoutForm = () => {
             })
         const json = await response.json()
         
+        
         if (!response.ok) {
             setError(json.error)
+            setEmptyFields(json.emptyFields)
         }   
         if (response.ok) {
             dispatch({type: 'CREATE_WORKOUT', payload: json})
@@ -33,6 +36,7 @@ const WorkoutForm = () => {
             setTitle('')
             setReps(0)
             setLoad(0)
+            setEmptyFields([])
         }     
     }
 
@@ -45,18 +49,21 @@ const WorkoutForm = () => {
               type='text'
               onChange={(e) => setTitle(e.target.value)}
               value={title}
+              className={emptyFields.includes('title') ? 'error' : ''}
             />
             <label>Exercise load (kg):</label>
             <input
               type='number'
               onChange={(e) => setLoad(e.target.value)}
               value={load}
+              className={emptyFields.includes('load') ? 'error' : ''}
             />
             <label>Exercise reps:</label>
             <input
               type='number'
               onChange={(e) => setReps(e.target.value)}
               value={reps}
+              className={emptyFields.includes('reps') ? 'error' : ''}
             />
             <button>Add Workout</button>
             {error && <div className='error'>Error: {error}</div>}
