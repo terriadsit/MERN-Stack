@@ -12,6 +12,11 @@ export const workoutReducer = (state, action) => { //state is prev state before 
             return {
                 workouts: [action.payload, ...state.workouts] //prev state workout objects
             }
+        case 'DELETE_WORKOUT':
+            const keepWorkouts = state.workouts.filter(w => w._id !== action.payload._id)
+            return {
+                workouts: keepWorkouts
+            }
         default:
             return state
     }
