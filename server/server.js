@@ -3,6 +3,7 @@ const cors = require('cors');
 const express = require('express')
 const mongoose = require('mongoose')
 const workoutRoutes = require('./routes/workout.js')
+const userRoutes = require('./routes/user.js')
 
 // express app
 const app = express()
@@ -20,6 +21,7 @@ app.use((req, res, next) => {
 
 //routes///
 app.use('/api/workouts', workoutRoutes)  // makes workoutRoutes relative to /api/workouts
+app.use('/api/users', userRoutes)
 
 // connect to db
 mongoose.connect(process.env.MONGO_URI)

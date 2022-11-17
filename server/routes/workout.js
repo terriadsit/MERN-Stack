@@ -1,4 +1,4 @@
-// this file is for routes
+// this file is for routes for workouts
 
 const express = require('express')
 const { 
