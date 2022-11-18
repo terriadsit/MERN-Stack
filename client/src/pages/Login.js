@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { useAuthContext } from '../hooks/useAuthContext'
 
-export default function Signup() {
+export default function Login() {
 
   const { user, dispatch } = useAuthContext()
 
@@ -17,7 +17,7 @@ export default function Signup() {
     e.preventDefault()
     const user = {email, password}
     
-    const response = await fetch(`${API_URL}/api/users/signup`, {
+    const response = await fetch(`${API_URL}/api/users/login`, {
           method: 'post',
           headers: {
             "Content-Type": "application/json",
@@ -32,7 +32,7 @@ export default function Signup() {
     }   
     if (response.ok) {
         dispatch({type: 'LOGIN', payload: json})
-        console.log('user added', json)
+        console.log('user logged in', json)
         setError('')
         setEmail('')
         setPassword(0)
@@ -42,14 +42,14 @@ export default function Signup() {
   return (
     <div>
         <form className="signup" onSubmit={handleSubmit}>
-          <h3>Signup:</h3>
+          <h3>Login:</h3>
 
           <label>Email:</label>
           <input
               type='email'
               onChange={(e) => setEmail(e.target.value)}
               value={email}
-              className={emptyFields.includes('reps') ? 'error' : ''}
+              className={emptyFields.includes('email') ? 'error' : ''}
             />
 
             <label>Password:</label>
@@ -57,9 +57,9 @@ export default function Signup() {
               type='password'
               onChange={(e) => setPassword(e.target.value)}
               value={password}
-              className={emptyFields.includes('reps') ? 'error' : ''}
+              className={emptyFields.includes('password') ? 'error' : ''}
             />
-            <button>Signup</button>
+            <button>Login</button>
             {error && <div className='error'>Error: {error}</div>}
         </form>
     </div>

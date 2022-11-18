@@ -1,16 +1,12 @@
 import { createContext, useReducer } from "react";
 
-export const UserContext = createContext()
+export const AuthContext = createContext()
 
-export const userReducer = (state, action) => { //state is prev state before change
+export const authReducer = (state, action) => { //state is prev state before change
     switch (action.type) {
-        case 'SIGNUP':
-            return  {            //return a new value that we want the state to be
-               user: action.payload
-            }
         case 'LOGIN':  // to keep local state matching db, dispatch  action when adding to db
             return {
-                user: action.payload  //prev state workout objects
+                user: action.payload  //prev state user objects
             }
         case 'LOGOUT':
             return {
@@ -26,15 +22,16 @@ export const userReducer = (state, action) => { //state is prev state before cha
    // calling dispatch invokes the reducer function, passes the action into the reducer function
    // ex dispatch({type: "SET_WORKOUTS", payload})
 
-export const UserContextProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(userReducer, { //reducer function name, initial value for the state 
+export const AuthContextProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(authReducer, { //reducer function name, initial value for the state 
         user: null
     }) 
    
+    console.log('AuthContext state', state)
 
     return (
-        <UserContext.Provider value={{...state, dispatch}}>
+        <AuthContext.Provider value={{...state, dispatch}}>
             { children }
-        </UserContext.Provider>
+        </AuthContext.Provider>
     )
 }
