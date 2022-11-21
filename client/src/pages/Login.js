@@ -1,44 +1,19 @@
 import { useState } from 'react'
 
-import { useAuthContext } from '../hooks/useAuthContext'
+import { useLogin } from '../hooks/useLogin'
 
-export default function Login() {
-
-  const { user, dispatch } = useAuthContext()
+export default function Signup() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [emptyFields, setEmptyFields] = useState([])
 
-  const API_URL = 'http://localhost:4000';
+  const { login, isLoading, error } = useLogin()
            
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const user = {email, password}
-    
-    const response = await fetch(`${API_URL}/api/users/login`, {
-          method: 'post',
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(user), //body must be a string
-        })
-    const json = await response.json()
-        
-    if (!response.ok) {
-        setError(json.error)
-        //setEmptyFields(json.emptyFields)
-    }   
-    if (response.ok) {
-        dispatch({type: 'LOGIN', payload: json})
-        console.log('user logged in', json)
-        setError('')
-        setEmail('')
-        setPassword(0)
-        setEmptyFields([])
-    }     
-}
+    await login(email, password)
+  }
+
   return (
     <div>
         <form className="signup" onSubmit={handleSubmit}>
@@ -49,7 +24,6 @@ export default function Login() {
               type='email'
               onChange={(e) => setEmail(e.target.value)}
               value={email}
-              className={emptyFields.includes('email') ? 'error' : ''}
             />
 
             <label>Password:</label>
@@ -57,9 +31,9 @@ export default function Login() {
               type='password'
               onChange={(e) => setPassword(e.target.value)}
               value={password}
-              className={emptyFields.includes('password') ? 'error' : ''}
             />
-            <button>Login</button>
+            <button disabled={isLoading}>Login</button>
+            {isLoading && <p>Loading...</p>}
             {error && <div className='error'>Error: {error}</div>}
         </form>
     </div>
