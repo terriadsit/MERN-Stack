@@ -15,6 +15,10 @@ const workoutSchema = new Schema({
     load: {
         type: Number,
         required: true
+    },
+    uid: {
+        type: String,
+        required: true
     }
 }, { timestamps: true })
 

@@ -6,7 +6,7 @@ const Workout = require('../models/workoutModel')
 
 // GET all workouts
 const getWorkouts = async (req, res) => {
-    const workouts = await Workout.find({}).sort({createdAt: -1})
+    const workouts = await Workout.find({ uid: req.user._id}).sort({createdAt: -1})
     res.status(200).json(workouts)
 }
 
@@ -32,7 +32,8 @@ async function createWorkout (req, res) {
 
     // add doc to db
     try {
-        const workout = await Workout.create({ title, load, reps })// Create returns response=workout = the new document along with id     
+        const uid = req.user._id
+        const workout = await Workout.create({ title, load, reps, uid })// Create returns response=workout = the new document along with id     
         res.status(200).json(workout)
     } catch(error) {
         console.log('error', error.message)
