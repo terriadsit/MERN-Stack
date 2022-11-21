@@ -59,7 +59,7 @@ userSchema.statics.login = async function(email, password) { // don't use an arr
         throw Error('All fields must be filled')
     }
 
-    // is email alredy used?
+    // is email already used?
     const user = await this.findOne({ email })  // don't have a User yet. this refers to the model
     
     if (!user) {

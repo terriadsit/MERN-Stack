@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuthContext } from '../hooks/useAuthContext'
 import { useLogout } from '../hooks/useLogout'
@@ -8,7 +9,8 @@ const Navbar = () => {
 
     const { user } = useAuthContext()
     const { logout } = useLogout()
-    
+
+       
     const handleClick = () => {
         logout()
     }
@@ -25,10 +27,10 @@ const Navbar = () => {
                   </nav>
                 }
                 {user && 
-                  <div>
+                  <nav>
                     <h4>Welcome {user.email}!</h4>
                     <button className='button' onClick={handleClick}>Logout</button>
-                 </div>
+                 </nav>
                 }
                 
             </div>

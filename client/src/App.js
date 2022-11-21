@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
 // pages & components
 import Home from './pages/Home';
@@ -9,18 +9,9 @@ import Navbar from './components/Navbar';
 
 import { useAuthContext } from './hooks/useAuthContext'
 
-
-
 function App() {
-  const { dispatch } = useAuthContext()
-  //const user = localStorage.getItem('user')
-
-  // useEffect(() => {
-  //   dispatch({type: 'LOGIN', payload: user})
-  // }, [])
-  
-  
-  //console.log(user, 'user in app')
+  const { user } = useAuthContext()
+ 
   return (
     <div className="App">
       <BrowserRouter>
@@ -29,15 +20,15 @@ function App() {
           <Routes>
             <Route
               path="/"
-              element={<Home />}
+              element={user ? <Home /> : <Navigate to='/login' />}
             />
             <Route
               path="/signup"
-              element={<Signup />}
+              element={!user ? <Signup /> : <Navigate to='/' />}
             />
             <Route
               path="/login"
-              element={<Login />}
+              element={!user ? <Login /> : <Navigate to='/' />}
             />
             </Routes>
         </div>
